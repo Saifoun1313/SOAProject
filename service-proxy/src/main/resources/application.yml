@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/admins/**
+        - id: etudiant-service
+          uri: lb://etudiant-service
+          predicates:
+            - Path=/etudians/**
+        - id: livre-service
+          uri: lb://livre-service
+          predicates:
+            - Path=/livres/** | /emprunts/**

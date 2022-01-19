@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("livres")
+@RequestMapping("/livres")
 public class LivreContoller {
 
     @Autowired

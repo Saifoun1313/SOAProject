@@ -27,4 +27,13 @@ public interface EmpruntRepository extends JpaRepository<Emprunt,EmpruntPK> {
     @Query("SELECT e FROM Emprunt e WHERE e.empruntPK.idLivre <= :date")
     public List<Emprunt> findByDateEmpBefore(@Param("date") Date date);
 
+    @Query("SELECT e FROM Emprunt e WHERE e.empruntPK.dateEmprunt > e.dateRetourRee")
+    public List<Emprunt> getEmpEnCours();
+
+    @Query("SELECT e FROM Emprunt e WHERE e.empruntPK.dateEmprunt < e.dateRetourRee and e.dateRetour > e.dateRetourRee")
+    public List<Emprunt> getEmpDansDelai();
+
+    @Query("SELECT e FROM Emprunt e WHERE e.empruntPK.dateEmprunt < e.dateRetourRee and e.dateRetour < e.dateRetourRee")
+    public List<Emprunt> getEmpRetard();
+
 }

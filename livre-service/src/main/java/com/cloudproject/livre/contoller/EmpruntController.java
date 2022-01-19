@@ -7,7 +7,9 @@ import com.cloudproject.livre.repository.EmpruntRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
@@ -18,17 +20,19 @@ public class EmpruntController {
     @Autowired 
     private EmpruntRepository empruntRepository;
 
-    @GetMapping("/{idLivre}")
+   /* @GetMapping("/{idLivre}")
     public List<Emprunt> getEmpruntByLivre(@PathVariable("idLivre") long idLivre) {
 
         return empruntRepository.findByLivre(idLivre);
-    }
-
+    }*/
+/*
     @GetMapping("/{idEtd}")
     public List<Emprunt> getEmpruntByEtudiant(@PathVariable("idEtd") long idEtd) {
 
         return empruntRepository.findByEtudiant(idEtd);
     }
+
+ */
 
     @GetMapping(value = "/")
     public List<Emprunt> showAll() throws ParseException {
@@ -72,5 +76,28 @@ public class EmpruntController {
             return false;
 
     }
-    
+    @GetMapping(value = "/{datedeb}&{datefin}")
+    public int nbEmpruntByMonth (@PathVariable ("datedeb") String dateDeb, @PathVariable ("datefin") String datefin) throws ParseException {
+        System.out.println(dateDeb);
+        System.out.println(datefin);
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date datedb = formatter.parse(dateDeb);
+        Date datefn = formatter.parse(datefin);
+        return empruntRepository.findByDateEmpIn(datedb,datefn).size();
+    }
+   @GetMapping(value = "/encours")
+    public int empEnCours (){
+        return empruntRepository.getEmpEnCours().size();
+    }
+
+    @GetMapping(value = "/retard")
+    public int empEnRetard (){
+        return empruntRepository.getEmpRetard().size();
+    }
+
+    @GetMapping(value = "/dansdelai")
+    public int empDansDelai (){
+        return empruntRepository.getEmpDansDelai().size();
+    }
 }
+

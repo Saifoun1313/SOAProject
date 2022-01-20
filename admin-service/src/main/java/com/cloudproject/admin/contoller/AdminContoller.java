@@ -17,15 +17,23 @@ public class AdminContoller {
     @Autowired
     private AdminRepository adminRepository;
 
-    @GetMapping("/{id}")
+   /* @GetMapping("/{id}")
     public Admin getAdmin(@PathVariable("id") long id) {
 
         return adminRepository.findById(id).orElse(null);
-    }
+    }*/
 
     @GetMapping(value = "/")
     public List<Admin> showAll() throws ParseException {
         return adminRepository.findAll();
+    }
+    @GetMapping(value = "/{login}&{password}")
+    public boolean login (@PathVariable ("login") String login , @PathVariable ("password") String password){
+       if (adminRepository.findByLoginAndAndPassword(login,password) != null) {
+           return true;
+       }else{
+           return false;
+       }
     }
 
     @PostMapping(value="/")
@@ -36,7 +44,6 @@ public class AdminContoller {
     @PutMapping(value="/")
     public Admin modifyAdmin(@RequestBody final Admin admin)
     {
-
         return adminRepository.save(admin);
     }
 
